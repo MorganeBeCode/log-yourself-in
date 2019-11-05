@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user = $_POST['username'];
     $password = $_POST['password'];
+    $email = $_POST['email'];
 
     // query
     $result = $conn->prepare('SELECT * FROM student WHERE username=:u AND password=:p');
@@ -27,8 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rows = $result->fetch(PDO::FETCH_NUM);
     if ($rows > 0) {
         $_SESSION['username'] = $user;
+        $_SESSION['password'] = $password;
+        $_SESSION['email'] = $email;
         $msg = "<div class='card-panel teal darken-2'>User found!</div>";
-        // header("location: ./pages/home.php");
+        header("location: profile.php");
     } else {
         $msg = "<div class='card-panel teal darken-2'>User not found!</div>";
         $errflag = true;
