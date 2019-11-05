@@ -1,3 +1,4 @@
+<?php include("form.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,25 +12,29 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
-        <div class="row">
-            <form class="col s12" action="" method="post">
+        <h1>Sign Up</h1>
+        <div class="row form">
+            <form class="col s12" method="post" action="index.php">
 
                 <!-- USERNAME FIELD -->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="first_name" type="text" class="validate">
-                        <label for="first_name">Username</label>
+                        <i class="material-icons prefix">person</i>
+                        <input id="username" name="username" type="text" class="validate" value="<?php echo $username ?>" required>
+                        <label for="username">Username</label>
                     </div>
                 </div>
 
                 <!-- PASSWORD FIELD -->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="password" type="password" class="validate">
+                        <i class="material-icons prefix">lock</i>
+                        <input id="password" name="password" type="password" class="validate" value="<?php echo $password ?>" required>
                         <label for="password">Password</label>
                     </div>
                 </div>
@@ -37,7 +42,8 @@
                 <!-- EMAIL FIELD -->
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="email" type="email" class="validate">
+                        <i class="material-icons prefix">email</i>
+                        <input id="email" name="email" type="email" class="validate" value="<?php echo $email ?>" required>
                         <label for="email">Email</label>
                     </div>
                 </div>
@@ -54,25 +60,3 @@
 </body>
 
 </html>
-
-<?php
-
-$dbhost = "database";
-$dbuser = "root";
-$dbpass = "root";
-$db = "becode";
-
-try {
-    $pdo = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
-
-    foreach ($pdo->query('SELECT * from student') as $row) {
-        echo '<pre>';
-        print_r($row);
-        echo '</pre>';
-    }
-    $pdo = null;
-} catch (PDOException $e) {
-    print "Error!: " . $e->getMessage() . "<br/>";
-    die();
-}
-?>
