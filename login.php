@@ -1,50 +1,41 @@
 <?php
-
-$username = $password = $email = "";
-
-$dbhost = "remotemysql.com";
-$dbuser = "33czP3G4ZR";
-$dbpass = "qNwQNP0iDI";
-$db = "33czP3G4ZR";
+$msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+    $errflag = false;
+    // configuration
+    $dbhost     = "remotemysql.com";
+    $db         = "33czP3G4ZR";
+    $dbuser     = "33czP3G4ZR";
+    $dbpass     = "qNwQNP0iDI";
 
-    if (isset($_POST["username"], $_POST["email"], $_POST["password"])) {
-        $username = secure_input($_POST["username"]);
-        $email = secure_input($_POST["email"]);
-        $password = secure_input($_POST["password"]);
-        $password = password_hash($password, PASSWORD_DEFAULT);
-    }
+    // database connection
+    $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->exec("SET CHARACTER SET utf8mb4");
+    // new data
 
-    try {
-        $pdo = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+    $user = $_POST['username'];
+    $password = $_POST['password'];
 
-        $data = [
-            'username' => $username,
-            'email' => $email,
-            'password' => $password
-        ];
-
-        $sql = "INSERT INTO student (username, email, password) VALUES ('$username', '$email', '$password')";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($data);
-
-        $pdo = null;
-    } catch (PDOException $e) {
-        print "Error!: " . $e->getMessage() . "<br/>";
-        die();
+    // query
+    $result = $conn->prepare('SELECT * FROM student WHERE username=:u AND password=:p');
+    $result->bindParam(':u', $user);
+    $result->bindParam(':p', $password);
+    $result->execute();
+    $rows = $result->fetch(PDO::FETCH_NUM);
+    if ($rows > 0) {
+        $_SESSION['username'] = $user;
+        $msg = "<div class='card-panel teal darken-2'>User found!</div>";
+        // header("location: ./pages/home.php");
+    } else {
+        $msg = "<div class='card-panel teal darken-2'>User not found!</div>";
+        $errflag = true;
     }
 }
 
-function secure_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,8 +59,8 @@ function secure_input($data)
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#">Home</a></li>
-                    <li><a href="login.php">Log In</a></li>
-                    <li><a class="active" href="index.php">Sign In</a></li>
+                    <li class="active"><a href="login.php">Log In</a></li>
+                    <li><a href="index.php">Sign In</a></li>
                 </ul>
             </div>
         </nav>
@@ -77,9 +68,10 @@ function secure_input($data)
 
     <!--Form-->
     <div class="container">
-        <h1>Sign Up</h1>
+        <h1>Log In</h1>
         <div class="row form">
-            <form class="col s12" method="post" action="index.php">
+            <?php echo $msg ?>
+            <form class="col s12" method="post" action="login.php">
 
                 <!-- USERNAME FIELD -->
                 <div class="row">
@@ -99,19 +91,10 @@ function secure_input($data)
                     </div>
                 </div>
 
-                <!-- EMAIL FIELD -->
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">email</i>
-                        <input id="email" name="email" type="email" class="validate" value="<?php echo $email ?>" required>
-                        <label for="email">Email</label>
-                    </div>
-                </div>
-
                 <!-- FORM SUBMIT BUTTON -->
                 <div class="row">
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light" type="submit" name="submit">Submit<i class="material-icons right">send</i></button>
+                        <button class="btn waves-effect waves-light" type="submit" name="submit">Login<i class="material-icons right">send</i></button>
                     </div>
                 </div>
             </form>
