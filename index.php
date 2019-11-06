@@ -1,4 +1,5 @@
 <?php
+$msg = "";
 
 $username = $password = $email = "";
 
@@ -28,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO student (username, email, password) VALUES ('$username', '$email', '$password')";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($data);
-
+        $msg = "<div class='card-panel teal darken-2'>Your account has been successfully created. Go to your <a href='profile.php'>profile</a></div>";
         $pdo = null;
     } catch (PDOException $e) {
         print "Error!: " . $e->getMessage() . "<br/>";
@@ -52,7 +53,7 @@ function secure_input($data)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Log yourself in</title>
+    <title>Sign up</title>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
@@ -67,7 +68,7 @@ function secure_input($data)
         <nav id="header-nav">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="home.php">Home</a></li>
                     <li><a href="login.php">Log In</a></li>
                     <li><a class="active" href="index.php">Sign Up</a></li>
                 </ul>
@@ -79,6 +80,7 @@ function secure_input($data)
     <div class="container">
         <h1>Sign Up</h1>
         <div class="row form">
+            <?php echo $msg ?>
             <form class="col s12" method="post" action="index.php">
 
                 <!-- USERNAME FIELD -->
