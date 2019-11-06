@@ -56,7 +56,8 @@ session_start();
     <div class="container">
         <div class="row">
             <div class="col s12 center-align">
-                <h3>This page is under construction... In the meantime, here's a octopus gif.</h3>
+                <h3>This page is under construction... </h3>
+                <h3>In the meantime, here's a octopus gif.</h3>
                 <img class="responsive-img" src="cute_monster.gif" alt="octopus">
             </div>
         </div>
