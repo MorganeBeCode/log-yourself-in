@@ -18,10 +18,24 @@ body {
 /* Header style */
 #header-nav {
   height: 100px;
+  margin-bottom: 50px;
 }
 #nav-mobile {
   padding: 20px 50px 0px 0px;
 }
 #nav-mobile li {
   padding: 0px 10px 0px 10px;
+}
+
+/* Footer style */
+.page-footer {
+  height: 150px;
+  padding: 40px 20px 0px 10px;
+  margin-top: 100px;
+}
+.icons {
+  padding: 10px 30px 0px 0px;
+}
+.page-footer a {
+  color: lightgray;
 }

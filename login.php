@@ -102,6 +102,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </div>
+
+    <!--Footer-->
+    <footer class="page-footer">
+        <div class="row">
+            <div class="col s4">
+                <p>© 2019 Octopus Incorporate</p>
+                <p>Icons made by <a href="https://www.flaticon.com/authors/freepik" target="_blank" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a></p>
+            </div>
+            <div class="col s1 offset-s6">
+                <a class="grey-text text-lighten-3" href="https://github.com/MorganeBecode" target="_blank" title="Morgane's Github">
+                    <img class="responsive-img icons" src="octopus.png" alt="octopus icon">
+                </a>
+            </div>
+            <div class="col s1">
+                <a class="grey-text text-lighten-3" href="https://github.com/D-Ermis" target="_blank" title="Dogukan's Github">
+                    <img class="responsive-img icons" src="raven.png" alt="raven icon">
+                </a>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
