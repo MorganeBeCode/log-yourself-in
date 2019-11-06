@@ -69,7 +69,7 @@ function secure_input($data)
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#">Home</a></li>
                     <li><a href="login.php">Log In</a></li>
-                    <li><a class="active" href="index.php">Sign In</a></li>
+                    <li><a class="active" href="index.php">Sign Up</a></li>
                 </ul>
             </div>
         </nav>

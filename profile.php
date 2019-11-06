@@ -7,12 +7,6 @@ $dbuser = "33czP3G4ZR";
 $dbpass = "qNwQNP0iDI";
 $db = "33czP3G4ZR";
 
-$username = secure_input($_POST["username"]);
-$lastname = secure_input($_POST["last_name"]);
-$email = secure_input($_POST["email"]);
-$password = secure_input($_POST["password"]);
-$password = password_hash($password, PASSWORD_DEFAULT);
-
 try {
     $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
 
@@ -29,14 +23,14 @@ try {
     $rows = $result->fetch(PDO::FETCH_NUM);
 
     foreach ($conn->query("SELECT * FROM student WHERE username= '" . $_SESSION['username'] . "' AND password= '" . $_SESSION['password'] . "'") as $row) {
-        $lastname = $row["last_name"];
-        $firstname = $row["first_name"];
-        $linkedin = $row["linkedin"];
-        $email = $row["email"];
-        $github = $row["github"];
+        $_SESSION["lastname"] = $row["lastname"];
+        $_SESSION["firstname"] = $row["firstname"];
+        $_SESSION["linkedin"] = $row["linkedin"];
+        $_SESSION["email"] = $row["email"];
+        $_SESSION["github"] = $row["github"];
     }
-    $lastname = secure_input($_POST["last_name"]);
-    $firstname = secure_input($_POST["first_name"]);
+    $lastname = secure_input($_POST["lastname"]);
+    $firstname = secure_input($_POST["firstname"]);
     $email = secure_input($_POST["email"]);
     $password = secure_input($_POST["password"]);
     $username = secure_input($_POST["username"]);
@@ -62,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
 
         $result = $conn->prepare("UPDATE student 
-                                  SET last_name =:ln, first_name =:fn, email=:e, github=:g, linkedin=:li
+                                  SET lastname =:ln, firstname =:fn, email=:e, github=:g, linkedin=:li
                                   WHERE username=:u AND password=:p");
         $result->bindParam(':u', $_SESSION['username']);
         $result->bindParam(':ln', $lastname);
@@ -73,13 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result->bindParam(':p', $_SESSION['password']);
         $result->execute();
         $rows = $result->fetch(PDO::FETCH_NUM);
-
+        $_SESSION["firstname"] = $firstname;
+        $_SESSION["lastname"] = $lastname;
+        $_SESSION["email"] = $email;
+        $_SESSION["linkedin"] = $linkedin;
+        $_SESSION["github"] = $github;
         $pdo = null;
     } catch (PDOException $e) {
         print "Error!: " . $e->getMessage() . "<br/>";
         die();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#">Home</a></li>
                     <li><a href="login.php">Log In</a></li>
-                    <li><a class="active" href="index.php">Sign In</a></li>
+                    <li><a class="active" href="index.php">Sign Up</a></li>
                 </ul>
             </div>
         </nav>
@@ -115,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!--Form-->
     <div class="container">
         <h1>My Profile</h1>
-        <h2>Welcome <?php echo $_SESSION['username']; ?></h2>
+        <h2>Welcome <?php echo $_SESSION["firstname"]; ?></h2>
         <div class="row form">
             <form class="col s12" method="post" action="profile.php">
 
@@ -141,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">email</i>
-                        <input id="email" name="email" type="email" class="validate" value="<?php echo $email ?>" required>
+                        <input id="email" name="email" type="email" class="validate" value="<?php echo $_SESSION["email"] ?>" required>
                         <label for="email">Email</label>
                     </div>
                 </div>
@@ -150,8 +149,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">person</i>
-                        <input id="last_name" name="last_name" type="text" class="validate" value="<?php echo $lastname ?>" required>
-                        <label for="last_name">Last Name</label>
+                        <input id="lastname" name="lastname" type="text" class="validate" value="<?php echo $_SESSION["lastname"] ?>">
+                        <label for="lastname">Last Name</label>
                     </div>
                 </div>
 
@@ -159,8 +158,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">person</i>
-                        <input id="first_name" name="first_name" type="text" class="validate" value="<?php echo $firstname ?>" required>
-                        <label for="first_name">First Name</label>
+                        <input id="firstname" name="firstname" type="text" class="validate" value="<?php echo $_SESSION["firstname"] ?>">
+                        <label for="firstname">First Name</label>
                     </div>
                 </div>
 
@@ -168,7 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">person</i>
-                        <input id="linkedin" name="linkedin" type="text" class="validate" value="<?php echo $linkedin ?>" required>
+                        <input id="linkedin" name="linkedin" type="text" class="validate" value="<?php echo $_SESSION["linkedin"] ?>">
                         <label for="linkedin">Linkedin</label>
                     </div>
                 </div>
@@ -177,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">person</i>
-                        <input id="github" name="github" type="text" class="validate" value="<?php echo $github ?>" required>
+                        <input id="github" name="github" type="text" class="validate" value="<?php echo $_SESSION["github"] ?>">
                         <label for="github">Github</label>
                     </div>
                 </div>
