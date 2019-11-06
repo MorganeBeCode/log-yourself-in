@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $msg = "";
 
 $username = $password = $email = "";
@@ -29,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO student (username, email, password) VALUES ('$username', '$email', '$password')";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($data);
-        $msg = "<div class='card-panel teal darken-2'>Your account has been successfully created. Go to your <a href='profile.php'>profile</a></div>";
+        $msg = "<div class='card-panel teal darken-2'>Your account has been successfully created. Please <a href='login.php'>log in</a> in order to access your profile.</div>";
         $pdo = null;
     } catch (PDOException $e) {
         print "Error!: " . $e->getMessage() . "<br/>";
@@ -69,7 +71,17 @@ function secure_input($data)
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="home.php">Home</a></li>
-                    <li><a href="login.php">Log In</a></li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        ?>
+                        <li><a href="logout.php">Log Out</a></li>
+                    <?php
+                    } else {
+                        ?>
+                        <li><a href="login.php">Log In</a></li>
+                    <?php
+                    }
+                    ?>
                     <li><a class="active" href="index.php">Sign Up</a></li>
                 </ul>
             </div>
@@ -113,7 +125,7 @@ function secure_input($data)
                 <!-- FORM SUBMIT BUTTON -->
                 <div class="row">
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light" type="submit" name="submit">Submit<i class="material-icons right">send</i></button>
+                        <button class="btn waves-effect waves-light" type="submit" name="submit">Create account<i class="material-icons right">send</i></button>
                     </div>
                 </div>
             </form>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +24,29 @@
         <nav id="header-nav">
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="home.php">Home</a></li>
-                    <li><a href="login.php">Log In</a></li>
-                    <li><a class="active" href="index.php">Sign Up</a></li>
+                    <li><a class="active" href="home.php">Home</a></li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        ?>
+                        <li><a href="logout.php">Log Out</a></li>
+                    <?php
+                    } else {
+                        ?>
+                        <li><a href="login.php">Log In</a></li>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        ?>
+                        <li><a href="profile.php">My Profile</a></li>
+                    <?php
+                    } else {
+                        ?>
+                        <li><a href="index.php">Sign Up</a></li>
+                    <?php
+                    }
+                    ?>
                 </ul>
             </div>
         </nav>
@@ -33,9 +57,7 @@
         <div class="row">
             <div class="input-field col s12 center-align">
                 <h3>This page is under construction... In the meantime, here's a octopus gif.</h3>
-
                 <img class="responsive-img" src="cute_monster.gif" alt="octopus">
-
             </div>
         </div>
     </div>

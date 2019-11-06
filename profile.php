@@ -104,8 +104,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="home.php">Home</a></li>
-                    <li><a href="login.php">Log In</a></li>
-                    <li><a class="active" href="index.php">Sign Up</a></li>
+                    <?php
+                    if (isset($_SESSION["username"])) {
+                        ?>
+                        <li><a href="logout.php">Log Out</a></li>
+                    <?php
+                    } else {
+                        ?>
+                        <li><a href="login.php">Log In</a></li>
+                    <?php
+                    }
+                    ?>
+                    <li><a href="profile.php">My Profile</a></li>
                 </ul>
             </div>
         </nav>
