@@ -50,8 +50,7 @@ function secure_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['edit'])) {
     try {
         $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
 
@@ -77,6 +76,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print "Error!: " . $e->getMessage() . "<br/>";
         die();
     }
+} elseif (isset($_POST['delete'])) {
+    $result = $conn->prepare("DELETE FROM student WHERE username=:u AND email=:e");
+    $result->bindParam(':u', $_SESSION['username']);
+    $result->bindParam(':e', $email);
+    $result->execute();
+    header("location: logout.php");
 }
 
 ?>
@@ -193,8 +198,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- FORM SUBMIT BUTTON -->
                 <div class="row">
-                    <div class="col s12">
-                        <button class="btn waves-effect waves-light" type="submit" name="submit">Submit<i class="material-icons right">send</i></button>
+                    <div class="col s6">
+                        <button class="btn waves-effect waves-light" type="submit" name="edit">Edit profile<i class="material-icons right">send</i></button>
+                    </div>
+                    <!-- DELETE BUTTON -->
+                    <div class="col s6">
+                        <button class="btn waves-effect waves-light" type="submit" name="delete" onclick="return confirm('Are you sure?');">Delete profile</button>
                     </div>
                 </div>
             </form>
@@ -220,6 +229,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </footer>
+
+    <!-- Script alert confirmation suppression de profil
+    <script>
+        document.querySelector("#delete").addEventListener("click", () => {
+            confirm("Are you sure?");
+
+        })
+    </script> -->
+
 </body>
 
 </html>
