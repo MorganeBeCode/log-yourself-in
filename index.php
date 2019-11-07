@@ -16,16 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $pdo = openConnection();
-
-        $data = [
-            'username' => $username,
-            'email' => $email,
-            'password' => $password
-        ];
-
-        $sql = "INSERT INTO student (username, email, password) VALUES ('$username', '$email', '$password')";
+        $sql = "INSERT INTO student (username, email, password) VALUES (?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute($data);
+        $stmt->execute(array($username, $email, $password));
         $msg = "<div class='card-panel teal darken-2'>Your account has been successfully created. Please <a href='login.php'>log in</a> in order to access your profile.</div>";
         $pdo = null;
     } catch (PDOException $e) {
