@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];
+    $password = sha1($password);
 
     // query
     $result = $conn->prepare('SELECT * FROM student WHERE username=:u AND password=:p');

@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = secure_input($_POST["username"]);
         $email = secure_input($_POST["email"]);
         $password = secure_input($_POST["password"]);
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        $password = sha1($password);
     }
 
     try {
