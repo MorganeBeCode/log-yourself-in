@@ -18,10 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = sha1($password);
 
     // query
-    $result = $conn->prepare('SELECT * FROM student WHERE username=:u AND password=:p');
-    $result->bindParam(':u', $user);
-    $result->bindParam(':p', $password);
-    $result->execute();
+    $result = $conn->prepare('SELECT * FROM student WHERE username=? AND password=?');
+    $result->execute(array($user, $password));
     $rows = $result->fetch(PDO::FETCH_NUM);
     if ($rows > 0) {
         $_SESSION['username'] = $user;
