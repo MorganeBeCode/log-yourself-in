@@ -6,17 +6,9 @@ $username = $password = $email = $lastname = $firstname = $linkedin = $github = 
 try {
     $conn = openConnection();
 
-    $data = [
-        'username' => $username,
-        'email' => $email,
-        'password' => $password
-    ];
-
-    $result = $conn->prepare('SELECT * FROM student WHERE username=:u AND password=:p');
-    $result->bindParam(':u', $_SESSION['username']);
-    $result->bindParam(':p', $_SESSION['password']);
-    $result->execute();
-    $rows = $result->fetch(PDO::FETCH_NUM);
+    $result = $conn->prepare('SELECT * FROM student WHERE username=? AND password=?');
+    $result->execute(array($_SESSION['username'], $_SESSION['password']));
+    $rows = $result->fetch(PDO::FETCH_ASSOC);
 
     foreach ($conn->query("SELECT * FROM student WHERE username= '" . $_SESSION['username'] . "' AND password= '" . $_SESSION['password'] . "'") as $row) {
         $_SESSION["lastname"] = $row["lastname"];
@@ -39,13 +31,6 @@ try {
     die();
 }
 
-function secure_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 if (isset($_POST['edit'])) {
     try {
         $conn = openConnection();
@@ -73,10 +58,8 @@ if (isset($_POST['edit'])) {
         die();
     }
 } elseif (isset($_POST['delete'])) {
-    $result = $conn->prepare("DELETE FROM student WHERE username=:u AND email=:e");
-    $result->bindParam(':u', $_SESSION['username']);
-    $result->bindParam(':e', $email);
-    $result->execute();
+    $result = $conn->prepare("DELETE FROM student WHERE username=? AND email=?");
+    $result->execute(array($_SESSION['username'], $email));
     header("location: logout.php");
 }
 
