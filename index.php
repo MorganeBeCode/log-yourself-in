@@ -1,14 +1,9 @@
 <?php
 session_start();
+include("functions.php");
 
 $msg = "";
-
 $username = $password = $email = "";
-
-$dbhost = "remotemysql.com";
-$dbuser = "33czP3G4ZR";
-$dbpass = "qNwQNP0iDI";
-$db = "33czP3G4ZR";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -20,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     try {
-        $pdo = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+        $pdo = openConnection();
 
         $data = [
             'username' => $username,

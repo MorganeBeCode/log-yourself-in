@@ -1,14 +1,10 @@
 <?php
 session_start();
+include("functions.php");
 $username = $password = $email = $lastname = $firstname = $linkedin = $github = "";
 
-$dbhost = "remotemysql.com";
-$dbuser = "33czP3G4ZR";
-$dbpass = "qNwQNP0iDI";
-$db = "33czP3G4ZR";
-
 try {
-    $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+    $conn = openConnection();
 
     $data = [
         'username' => $username,
@@ -52,7 +48,7 @@ function secure_input($data)
 }
 if (isset($_POST['edit'])) {
     try {
-        $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+        $conn = openConnection();
 
         $result = $conn->prepare("UPDATE student 
                                   SET lastname =:ln, firstname =:fn, email=:e, github=:g, linkedin=:li
@@ -229,15 +225,6 @@ if (isset($_POST['edit'])) {
             </div>
         </div>
     </footer>
-
-    <!-- Script alert confirmation suppression de profil
-    <script>
-        document.querySelector("#delete").addEventListener("click", () => {
-            confirm("Are you sure?");
-
-        })
-    </script> -->
-
 </body>
 
 </html>

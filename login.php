@@ -1,17 +1,13 @@
 <?php
+include("functions.php");
 $msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_start();
     $errflag = false;
-    // configuration
-    $dbhost     = "remotemysql.com";
-    $db         = "33czP3G4ZR";
-    $dbuser     = "33czP3G4ZR";
-    $dbpass     = "qNwQNP0iDI";
 
     // database connection
-    $conn = new PDO("mysql:host=$dbhost;dbname=$db", $dbuser, $dbpass);
+    $conn = openConnection();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn->exec("SET CHARACTER SET utf8mb4");
     // new data
