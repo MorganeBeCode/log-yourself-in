@@ -1,10 +1,13 @@
 # Log Yourself In
 
-### [Page](https://cryptic-river-82559.herokuapp.com/)
+#### [Page](https://cryptic-river-82559.herokuapp.com/)
 
-### [Instructions](https://github.com/becodeorg/LIE-Jepsen-2.14/blob/master/02-the-hill/06-challenges-php-sql/login.adoc)
 
-### Team: [Dogukan](https://github.com/D-Ermis) & [Morgane](https://github.com/MorganeBecode)
+#### [Instructions](https://github.com/becodeorg/LIE-Jepsen-2.14/blob/master/02-the-hill/06-challenges-php-sql/login.adoc)
+
+
+#### Team: [Dogukan](https://github.com/D-Ermis) & [Morgane](https://github.com/MorganeBecode)
+
 
 ## Goals
 
